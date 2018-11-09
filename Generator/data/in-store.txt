@@ -1,0 +1,105 @@
+11
+3
+Vending OC 1.50,2.50,3.75,5.00
+Coca-cola
+Pepsi
+Snackers
+11
+Grocery R .99,99.99
+Walmart
+Harris Teeter
+Family Dollar
+Lidl
+Aldi
+Target
+IGA
+Dollar Tree
+Walgreens
+Rite Aid
+CVS Pharmacy
+11
+Exp-Store R 59.99,99.99
+Belk
+Barnes and Noble
+JCPenny
+Ikea
+Bed Bath and Beyond
+Macy's
+Dicks Sporting Goods
+Staples
+Home Depot
+Lowes
+Sears
+4
+Online OR 9.99,999.99
+Amazon
+Ebay
+Walmart
+Best Buy
+10
+Online-Sing O 19.99
+Discord
+Hulu
+Netflix
+Crunchyroll
+Picarto.tv
+deviantART
+Twitch Prime
+Poster Burner
+Uber
+Lyft
+9
+Online-Game OC 19.99,29.99,59.99
+Playstation Network
+Nintendo
+Microsoft Store
+Steam
+Blizzard Inc.
+Google Play
+iTunes
+Origin
+Gamestop
+4
+Food-Expensive R 25.00,50.00
+Panda Express
+Cracker Barrel
+Hwy 55
+Zaxby's
+19
+Food R 15.00,25.00
+Burger King
+McDonalds
+Subway
+Pizza Hut
+Dominos
+Jimmy Johns
+Little Caesar's
+Wendy's
+Cook Out
+Bojangles
+Waffle House
+Pizza Inn
+Chick-fil-A
+China King
+Chilis
+Mike's Deli
+Taco Bell
+7-11
+Sup Dogs
+1
+Food-Cheaper C 3.75,5.75
+Starbucks
+5
+Phone OC 30.00,35.00,45.00,60.00
+Verizon Wireless
+Altell
+AT&T
+Sprint
+StraightTalk
+5
+Gas R 29.99,59.99
+BP
+Shell
+Scotchman
+Sheetz
+Speedway

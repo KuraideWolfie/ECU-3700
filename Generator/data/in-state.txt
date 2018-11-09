@@ -1,0 +1,181 @@
+3
+NC
+SC
+PA
+37
+Pink Hill
+28572
+Rose Hill
+28458
+Greenville
+27858
+Snow Hill
+28580
+Whiteville
+28472
+Kenansville
+28349
+Magnolia
+77354
+Jacksonville
+32034
+Durham
+27517
+Raleigh
+27513
+Wilmington
+28401
+Winterville
+28590
+Greensboro
+27214
+Oxsboro
+55484
+Wallace
+28466
+Teachey
+28464
+Mount Olive
+28365
+Warsaw
+46580
+San Bernardino
+92346
+Los Angelos
+90001
+New York City
+10001
+Fayetteville
+28301
+Kinston
+28501
+Asheville
+28715
+Winston-Salem
+27023
+Cary
+27511
+Chapel Hill
+27514
+New Bern
+28560
+Concord
+94518
+Charlotte
+28105
+Hendersonville
+28739
+Rocky Mount
+27801
+Goldsboro
+27530
+Wake Forest
+27587
+Boone
+28607
+High Point
+27235
+Mooresville
+28115
+100
+Armama Rd.
+Hillshire Blvd.
+Cruxtople Ln.
+Blanchard St.
+Firetower Rd.
+10th St.
+Greenville Blvd.
+Smith Ln.
+5th St.
+College Hill Rd.
+College Dr.
+1st St.
+Turkey Ln.
+Blackmore Rd.
+2nd St.
+Ower Ln.
+Elm St.
+Kenan Loop Rd.
+7th St.
+Asbury Rd.
+Cynthia St.
+Avitus Way
+Baptist St.
+3rd St.
+Sunshine Blvd.
+Jefferson St.
+Barn Ln.
+Baywater Dr.
+8th St.
+Beach Pine Ln.
+Shepard St.
+Palm Ave.
+Abbeydale Ci.
+9th St.
+Lyman Rd.
+Grady Smith Rd.
+Bel Air Rd.
+Hyatt Rd.
+4th St.
+Midway Court Rd.
+Chulavista Rd.
+Martin Luther King Dr.
+Watchtower Rd.
+6th St.
+Heckleberry Ln.
+Olive St.
+Evering Rd.
+Nightmare St.
+Dorkly Rd.
+Hooker Ln.
+Armitus Rd.
+Arkwater Ln.
+Tucker Rd.
+Chimini Corner
+Poplar St.
+Lincoln Ave.
+Route 7
+Arch St.
+Old York Rd.
+Oxford Rd.
+Linden Ave.
+8th Ave.
+Warren St.
+Willow Ln.
+Woodland Dr.
+Henry St.
+Briarwood Court
+Crescent St.
+Hickory St.
+Orchard St.
+Hamilton Rd.
+Queen St.
+Holly Court
+Sunset Dr.
+Church St.
+Colonial Ave.
+Pearl St.
+Fawn Court
+Mechanic St.
+Hillcrest Dr.
+Route 41
+5th Ave.
+Route 17
+Mulberry St.
+Grand Ave.
+Broad St.
+Main St.
+Delaware Ave.
+Beech St.
+Myrtle Ave.
+Sycamore Ln.
+Deerfield Dr.
+Hanover Court
+Garfield Ave.
+Division St.
+Woodland Rd.
+Cobblestone Court
+Belmont Ave.
+Central Ave.
+August Rd.
+Archery Way

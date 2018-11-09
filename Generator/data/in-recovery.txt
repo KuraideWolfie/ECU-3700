@@ -1,0 +1,23 @@
+11
+What is your favorite shape?
+Square,Rectangle,Triangle,Circle,Oval,Octagon,Hexagon,Decagon,Dodecagon,Septagon,Heptagon,Lines,Trapezoid,Parallelogram
+What is your favorite color?
+Blue,Red,Green,Orange,Yellow,Purple,Pink,Brown,White,Black,Grey,Lime,Fuschia,Indigo,Teal,Sky Blue,Navy
+What is your favorite gem or crystalline structure?
+Sapphire,Ruby,Emerald,Diamond,Onyx,Amethyst,Quartz,Opal,Amber
+What is your least favorite soda?
+Cherry Coke,Coca-cola,Pepsi,Dr. Pepper,Sprite,Mountain Dew,Mr. Pibb,Fanta
+What is your favorite season?
+Winter,Autumn,Spring,Summer
+What is your least favorite day?
+Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday
+What is your favorite species?
+Dogs,Cats,Birds,Snakes,Frogs,Horses,Cows,Pigs,Chickens,Turkeys,Whales,Fish,Sharks,Swordfish,Worms,Butterflies,Dragons,Unicorns,Griffons,Chimeras,Nagas,Pandas,Preying Mantis
+What is your favorite food?
+Spaghetti,Pizza,Ramen,Watermelon,Apples,Lasagna,Hamburgers,Cheeseburgers,Fries,Pizza rolls,Salad,Steak,Pork,Ham,Casserole,Peanut Butter and Jelly,Tacos,Tostadas
+What is your favorite computer brand?
+Apple,Microsoft,Dell,HP,Lenovo,Toshiba,Acer,Asus,MSI,Alienware
+Who is your phone carrier?
+AT&T,Sprint,Verizon Wireless,Altell,StraightTalk,Apple,USCellular
+What did you study in college?
+Computer Science,Software Engineering,Philosophy,Art,English,History,Mathematics,Geology,Geography,Psychology,Biology,Chemistry
