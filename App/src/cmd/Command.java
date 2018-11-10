@@ -13,10 +13,16 @@ import java.lang.ClassNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public abstract class Command {
+  // in is a list of commands read from an input file; it's open to all commands
+  protected static ArrayList<String> in = new ArrayList<>();
+
   // scan is a reference to a scanner object the command may utilize
   // prop contains referential keys and all the properties associated to them
   // con is a reference to the connection this command is handling
@@ -155,14 +161,25 @@ public abstract class Command {
     * @param pr The prompt string to show
     * @param ln True if a linebreak should be printed before the prompt; false
     *   if not
-    * @return The next line from the scanner, or null if no scanner is avail */
+    * @return The next line from command list, scanner (if no cmd), or "" if
+    *   no scanner or preloaded command is available */
 
   public String prompt(String pr, boolean ln) {
-    if (!this.hasScanner()) { return ""; }
+    // Return an empty string if no scanner or input file command is available
+    if (!this.hasScanner() && in.size()==0) { return ""; }
 
+    // Get input
     System.out.print((ln ? "\n" : "") +pr+" > ");
+    String input;
 
-    return scan.nextLine();
+    if (in.size() > 0) {
+      input = in.remove(0);
+      System.out.println(input);
+    }
+    else
+      input = scan.nextLine();
+
+    return input;
   }
 
   /****************************************************************************/
@@ -202,7 +219,7 @@ public abstract class Command {
 
   public static boolean isCommand(String cmd) {
     if (cmd.length() < 2) { return false; }
-    
+
     String name = "cmd.Cmd"+Character.toUpperCase(cmd.charAt(0))+cmd.toLowerCase().substring(1);
 
     try { Class.forName(name); } catch (ClassNotFoundException e) { return false; }
@@ -234,5 +251,21 @@ public abstract class Command {
   public static boolean isReturn(String cmd) {
     cmd = cmd.toLowerCase();
     return cmd.equals("back") || cmd.equals("ret") || cmd.equals("exit");
+  }
+
+  /** open(f) attempts to open the file 'f' and read commands into the list
+    * of preloaded commands. It ignores lines that start with '#'
+    *
+    * @param f The filename to read user commands from */
+
+  public static void open(String f) throws IOException, Exception {
+    BufferedReader r = new BufferedReader(new FileReader(f));
+    String cmd;
+    while((cmd = r.readLine()) != null) {
+      cmd = cmd.trim();
+      if (cmd.length()==0 || (cmd.length()>0 && cmd.charAt(0) != '#'))
+        in.add(cmd);
+    }
+    r.close();
   }
 }

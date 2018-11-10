@@ -40,11 +40,13 @@ public class CmdReset extends Command {
           if (!(new File(inque)).exists() || !(new File(indat)).exists())
             throw new IOException("One of the specified files doesn't exist");
 
+          // Run the creation script
           r = new BufferedReader(new FileReader(inque));
           loadData(r);
           r.close();
           System.out.println("Database recreated successfully");
 
+          // Run the data loading script
           r = new BufferedReader(new FileReader(indat));
           loadData(r);
           r.close();

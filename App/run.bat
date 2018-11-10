@@ -9,4 +9,4 @@ pause
 
 jar cfm DBMSApp.jar ./src/manifest.txt -C out .
 rmdir out /s /q
-java -jar DBMSApp.jar
+java -jar DBMSApp.jar in ./input.txt

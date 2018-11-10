@@ -21,7 +21,10 @@ javac -d "out" -cp ".;postgresql-42.2.5.jar" Main.java
 jar cfm DBMSApp.jar ./src/manifest.txt -C out .
 
 Testing:
-java -jar DBMSApp.jar
+java -jar DBMSApp.jar [options]
+
+Options:
+- in <file> : Specifies an input file to read commands from
 ```
 Issues:
 - ...

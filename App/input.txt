@@ -1,0 +1,27 @@
+# Reset the database state
+reset
+reset
+../create.sql
+../Generator/data/query.sql
+# Add a new customer, Amara Rieras
+customer
+new
+123456789
+Amara
+Rieras
+F
+1999-01-01
+9102894319
+rieras.amara@yahoo.com
+101 Lupin St.
+
+Dark Rosally
+27688
+NC
+# Get information for Amara, MNM, and Joshua
+get
+SSN Address
+Amara Rieras, Matthew Morgan, Joshua Reyes
+# Exit program execution
+ret
+ret
