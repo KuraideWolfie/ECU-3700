@@ -5,4 +5,4 @@ jar cfe Generator.jar Main -C out .
 pause
 rmdir out /s /q
 pause
-java -jar Generator.jar -d
+java -jar Generator.jar -d -st

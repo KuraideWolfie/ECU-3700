@@ -201,6 +201,8 @@ public abstract class Command {
     * @return True if there is an implementation, or false if not */
 
   public static boolean isCommand(String cmd) {
+    if (cmd.length() < 2) { return false; }
+    
     String name = "cmd.Cmd"+Character.toUpperCase(cmd.charAt(0))+cmd.toLowerCase().substring(1);
 
     try { Class.forName(name); } catch (ClassNotFoundException e) { return false; }
@@ -219,6 +221,7 @@ public abstract class Command {
     switch(cmd.toLowerCase()) {
       case "help": return new CmdHelp();
       case "customer": return new CmdCustomer();
+      case "reset": return new CmdReset();
       default: return null;
     }
   }

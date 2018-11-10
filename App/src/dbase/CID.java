@@ -85,4 +85,11 @@ public class CID {
     }
     return "("+res.substring(2)+")";
   }
+
+  /** numIDS() returns the number of customer IDs stored in this CID.
+    * @return The number of IDs stored */
+
+  public int numIDS() {
+    return cidNum.size() + cidStr.size();
+  }
 }

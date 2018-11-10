@@ -9,4 +9,4 @@ pause
 
 jar cfm DBMSApp.jar ./src/manifest.txt -C out .
 rmdir out /s /q
-java -cp ".;postgresql-42.2.5.jar" -jar DBMSApp.jar
+java -jar DBMSApp.jar

@@ -7,6 +7,7 @@ public class CmdHelp extends Command {
       "---------------------------------------------------------------------\n"+
       "customer   Perform actions related to customers\n"+
       "help       Displays this list of base commands\n"+
+      "reset      DEBUG: Reset the state of the database\n"+
       "exit       Terminates the program's execution"
     );
   }

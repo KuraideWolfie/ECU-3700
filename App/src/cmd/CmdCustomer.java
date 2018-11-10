@@ -85,7 +85,7 @@ public class CmdCustomer extends Command {
     * <ul>
     *  <li>Get what properties the user wants
     *  <li>Get the CID/names of customers
-    *  <li>Display the resulting data
+    *  <li>Display the resulting data | no result confirmation
     * </ul> */
   
   private void subGet() {
@@ -105,6 +105,7 @@ public class CmdCustomer extends Command {
       try {
         CID cid = new CID();
         String que = "";
+        int results = 0;
 
         if (!cid.addAll(prompt("CUST > CIDs").split(","))) { throw new Exception(); }
         in = cid.getIn();
@@ -124,6 +125,7 @@ public class CmdCustomer extends Command {
         // Generate the result string
         while(rs.next()) {
           String res = "", str;
+          results++;
 
           for(String col : keys) {
             str = rs.getString(col);
@@ -157,6 +159,9 @@ public class CmdCustomer extends Command {
               rs.getString("Lname")) + res
           );
         }
+
+        if (results == 0)
+          System.out.println("There were no results");
         
         rs.close();
         ps.close();
