@@ -42,12 +42,12 @@ public class CmdReset extends Command {
 
           r = new BufferedReader(new FileReader(inque));
           loadData(r);
-          rq.close();
+          r.close();
           System.out.println("Database recreated successfully");
 
           r = new BufferedReader(new FileReader(indat));
           loadData(r);
-          rd.close();
+          r.close();
           System.out.println("Data loaded successfully");
           break;
         default:
