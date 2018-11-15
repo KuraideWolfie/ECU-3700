@@ -12,6 +12,7 @@ import dbase.Relations;
 
 // Creation of a new account
 // Modification of a new account to add a new owner or make a deposit, withdrawal, or transfer.
+// --- Removal of owners is also possible if it wouldn't leave an account with 0 owners
 // Close an account
 // Manage cards by adding a new card, or closing a card
 //   Sub-sub-commands for card management
@@ -28,6 +29,7 @@ public class CmdAccount extends Command {
       String cmd = prompt("ACCT");
 
       switch(cmd.toLowerCase()) {
+        case "new": subNew(); break;
         case "get": subGet(); break;
         case "seek": subSeek(); break;
         case "help": subHelp(); break;
@@ -46,11 +48,127 @@ public class CmdAccount extends Command {
     System.out.println(
       "Subcommands for Account\n"+
       "---------------------------------------------------------------------\n"+
+      "new        Create a new account for a customer\n"+
       "seek       Seek information about an account\n"+
       "get        Get information about an account\n"+
       "help       Show this list of subcommands\n"+
       "ret        Return to the main menu"
     );
+  }
+
+  /** subNew() allows the user to create a new account following this procedure:
+    * 
+    * <ul>
+    *  <li>Ask if the customer is a new customer
+    *  <ul>
+    *   <li>If the customer is new, execute functionality to make a new customer
+    *   <li>If the customer isn't new, ask for the name to associate with
+    *   <ul>
+    *    <li>If multiple customers share the name, then prompt for specific ID
+    *   </ul>
+    *  </ul>
+    *  <li>Enter properties for the account
+    *  <li>Insert the account into the database, and make an entry in the
+    *      Account_Owner relation
+    * </ul> */
+
+  private void subNew() {
+    try {
+      // Ask if the customer is new
+      System.out.println("Is this account for a present/returning customer? (y/n)");
+      String isNew, cid = "";
+      do { isNew = prompt("ACCT > NEW > Returning").toLowerCase(); }
+      while(!isYes(isNew) && !isNo(isNew));
+
+      // If the customer is new, generate a new customer entry in the DB
+      // If the customer isn't new, get a customer ID
+      if (isYes(isNew)) {
+        // Execute CmdCustomer's function to generate a new customer
+        System.out.println("Executing customer addition...\n");
+        CmdCustomer cust = new CmdCustomer();
+        cust.setCon(this.con);
+        cust.setScanner(this.scan);
+
+        if (!cust.subNewPub())
+          throw new Exception("Customer generation failed");
+        else
+          System.out.println();
+
+        // Get the new customer's CID
+        ps = con.genQuery("SELECT COUNT (*) AS \"NEWID\" FROM \"Customer\"");
+        rs = ps.executeQuery();
+        rs.next();
+        cid = rs.getString("NEWID");
+        rs.close();
+        ps.close();
+      }
+      else {
+        ArrayList<String> dat = new ArrayList<>();
+        String[] name;
+        int res = 0;
+
+        // Get the name of the customer
+        System.out.println("Who is this account for? (Type a first, last name)");
+        do { cid = prompt("ACCT > NEW > CID"); }
+        while(!cid.contains(" "));
+        name = cid.replace("'", "''").trim().split(" ");
+
+        // Fetch results from the database
+        ps = con.genQuery(
+          "SELECT \"CID\", \"Con_Phone\", \"SSN\" FROM \"Customer\" WHERE "+
+          "\"Fname\" = '"+name[0]+"' AND \"Lname\" = '"+name[1]+"'"
+        );
+        rs = ps.executeQuery();
+        while(rs.next()) {
+          res++;
+          cid = rs.getString("CID");
+          dat.add(String.format("(%4s) %s %s", rs.getString("CID"),
+            rs.getString("Con_Phone"), rs.getString("SSN")));
+        }
+        rs.close();
+        ps.close();
+
+        // Show results and prompt if there is more than one for a CID
+        if (res == 0)
+          throw new Exception("No customer exists with the given name");
+        else if (res > 1) {
+          System.out.println("Which of these customers is it? (CID, Phone, SSN)");
+          for(String cst : dat) { System.out.println(cst); }
+          cid = prompt("ACCT > NEW > CID");
+        }
+      }
+
+      // The user must enter these properties: Account type, balance, int rate,
+      // compound rate, and monthly fee
+      String[][] fields = Relations.getProps("ACCT > NEW",
+        new String[][] {Relations.TBL_ACCOUNT[1], Relations.TBL_ACCOUNT[4],
+        Relations.TBL_ACCOUNT[5], Relations.TBL_ACCOUNT[6],
+        Relations.TBL_ACCOUNT[7]}, false);
+      
+      // <GENERATE QUERY AND INSERT INTO DATABASE>
+      // <INSERT INTO ACCOUNT_OWNER>
+    }
+    catch(Exception e) {
+      System.out.println("Error: "+e.getMessage());
+    }
+  }
+
+  /** isYes(str) returns whether the given string is a 'yes' answer.
+    * 
+    * @param str The string to test
+    * @return True if str is yes, y, t, or true */
+
+  private boolean isYes(String str) {
+    return str.equals("y") || str.equals("yes") || str.equals("t") || str.equals("true");
+  }
+
+  /** isNo(str) returns whether hte given string is a 'no' answer.
+    *
+    * @param str The string to test
+    * @return True if str is no, n, f, or false */
+
+  private boolean isNo(String str) {
+    return str.equals("n") || str.equals("no") || str.equals("f") || str.equals("false");
   }
 
   /** subGet() allows the user to get information about an account, following
@@ -95,6 +213,20 @@ public class CmdAccount extends Command {
           continue;
         }
 
+        // Recent card Num, PIN, CSC, Expiry
+        if (!out.contains("SAV")) {
+          ps = con.genQuery(
+            "SELECT \"Number\", \"PIN\", \"Sec_Code\", \"Exp_Date\" FROM \"Card\""+
+            " WHERE \"AID\" = "+a+" ORDER BY \"Exp_Date\" DESC"
+          );
+          rs = ps.executeQuery();
+          rs.next();
+          out += "\n  CRD: "+getCard();
+          //while(rs.next()) { out += "\n  REC CRD: "+getCard(); }
+          rs.close();
+          ps.close();
+        }
+        
         // Owning customer CID, Name, and Phone
         out += "\n  OWN:";
         ps = con.genQuery(
@@ -110,20 +242,6 @@ public class CmdAccount extends Command {
         }
         rs.close();
         ps.close();
-
-        // Recent card Num, PIN, CSC, Expiry
-        if (!out.contains("SAV")) {
-          ps = con.genQuery(
-            "SELECT \"Number\", \"PIN\", \"Sec_Code\", \"Exp_Date\" FROM \"Card\""+
-            " WHERE \"AID\" = "+a+" ORDER BY \"Exp_Date\" DESC"
-          );
-          rs = ps.executeQuery();
-          rs.next();
-          out += "\n  CRD: "+getCard();
-          //while(rs.next()) { out += "\n  REC CRD: "+getCard(); }
-          rs.close();
-          ps.close();
-        }
 
         System.out.println(out);
       }

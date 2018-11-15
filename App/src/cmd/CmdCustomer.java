@@ -283,8 +283,15 @@ public class CmdCustomer extends Command {
     *  <li>Get the properties of the customer to be added
     *  <li>Generate a query and attempt to insert the customer
     * </ul> */
+  
+  private void subNew() { subNewPub(); }
 
-  private void subNew() {
+  /** subNewPub() executes the new subcommand of customer, returning if the
+    * operation was successful or not.
+    *
+    * @return True if the customer was added, or false if not */
+
+  public boolean subNewPub() {
     try {
       String[][] fields = Relations.getProps("CUST > NEW", Relations.TBL_CUSTOMER, false);
       String que = "INSERT INTO \"Customer\" " +
@@ -307,8 +314,10 @@ public class CmdCustomer extends Command {
 
       ps = con.genQuery(que);
       if (ps.executeUpdate() == 1)
-        System.out.println("Operation successful");
+        System.out.println("Customer inserted into database successfully");
       ps.close();
+
+      return true;
     }
     catch(Exception e) {
       // Zip wasn't an integer
@@ -316,5 +325,6 @@ public class CmdCustomer extends Command {
       // Misc error
       System.out.println("Input rejected: "+e.getMessage());
     }
+    return false;
   }
 }

@@ -3,9 +3,15 @@ reset
 reset
 ../create.sql
 ../Generator/data/query.sql
-# Add a new customer, Amara Rieras
-customer
+# See account information for Matthew Morgan, Amara Rieras, Josh Reyes
+account
+seek
+Matthew Morgan
+1
+get
+097962965496, 031597952375, 111222333444
 new
+YES
 123456789
 Amara
 Rieras
@@ -18,10 +24,20 @@ rieras.amara@yahoo.com
 Dark Rosally
 27688
 NC
-# Get information for Amara, MNM, and Joshua
-get
-SSN Address
-Amara Rieras, Matthew Morgan, Joshua Reyes
+CHK
+25.00
+0
+
+9.99
+new
+NO
+Matthew Morgan
+2
+SAV
+100.00
+.07
+ANNUALLY
+5.99
 # Exit program execution
 ret
 ret
