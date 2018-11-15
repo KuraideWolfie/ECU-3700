@@ -92,4 +92,12 @@ public class CID {
   public int numIDS() {
     return cidNum.size() + cidStr.size();
   }
+
+  /** cntNum() returns the number of customer IDs stored as numbers. */
+
+  public int cntNum() { return cidNum.size(); }
+
+  /** cntStr() returns the number of customer IDs stored as strings/names. */
+
+  public int cntStr() { return cidStr.size(); }
 }

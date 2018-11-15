@@ -117,7 +117,7 @@ public abstract class Command {
   protected boolean hasKey(String key) { return prop.containsKey(key); }
 
   /** hasKeys(keys) returns whether all of the property-referencing keys is
-    * contained in the collection of keys.
+    * contained in the collection of keys. 
     *
     * @param keys A list of property-referencing keys
     * @return True if all keys exist, or false if one or more is missing */
@@ -194,6 +194,12 @@ public abstract class Command {
     return buildSelect(props.toArray(new String[0]));
   }
 
+  /** buildSelect(props) builds a comma-delimited string from the array of props
+    * provided.
+    *
+    * @param props An array of properties to generate a string for
+    * @return A comma-separated list of properties as strings */
+
   public static String buildSelect(String[] props) {
     String tup = "";
     for(int i=0; i<props.length; i++)
@@ -239,6 +245,7 @@ public abstract class Command {
       case "help": return new CmdHelp();
       case "customer": return new CmdCustomer();
       case "reset": return new CmdReset();
+      case "account": return new CmdAccount();
       default: return null;
     }
   }

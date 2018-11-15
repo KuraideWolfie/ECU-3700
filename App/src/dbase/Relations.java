@@ -45,6 +45,41 @@ public class Relations {
       {"F", "City", "Addr: City"},
       {"F", "Zip", "Addr: City ZIP"},
       {"F", "State", "Addr: State Abbrev"}
+    },
+    TBL_ACCOUNT = {
+      {"F", "AID", "Account ID"},
+      {"F", "Type", "Account Type"},
+      {"F", "Date_Open", "Open Date"},
+      {"T", "Date_Close", "Closing Date"},
+      {"F", "Balance", "Account Balance"},
+      {"F", "Int_Rate", "Interest Rate"},
+      {"T", "Int_Comp", "Compound Rate"},
+      {"F", "Month_Fee", "Monthly Service Fee"}
+    },
+    TBL_ACCOUNT_OWNER = {
+      {"F", "CID", "Customer ID"},
+      {"F", "AID", "Accound ID"}
+    },
+    TBL_CARD = {
+      {"F", "Number", "Card Number"},
+      {"F", "Exp_Date", "Expiration Date"},
+      {"F", "Sec_Code", "CSC"},
+      {"F", "PIN", "Card PIN"},
+      {"F", "Status", "Active Status"},
+      {"F", "AID", "Card's Account ID"},
+      {"F", "CID", "Card's Owner"}
+    },
+    TBL_TRANSACTION = {
+      {"F", "TID", "Transaction ID"},
+      {"F", "AID", "Account ID"},
+      {"F", "Type", "Transaction Type"},
+      {"F", "Date", "Date"},
+      {"F", "Desc", "Description"},
+      {"F", "Amount", "Amount"},
+      {"F", "Rec_Route", "Recipient Routing"},
+      {"F", "Rec_AID", "Recipient Account ID"},
+      {"T", "DID", "Transaction Dispute"},
+      {"F", "isPending", "Pending?"}
     };
   
   /** mayNull(prop, pind) returns whether the property at index pind in the
