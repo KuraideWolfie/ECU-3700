@@ -2,6 +2,9 @@
 
 <i>This README is a WIP file.</i>
 
+## NOTICES
+There is a license file for Postgre available under <u>App/LICENSE-postgre.txt</u>.
+
 ## Application
 ### Description
 This application is the main program for the database project, allowing access to, and manipulation of, the various data points in the PostgreSQL database. It allows a user to modify and view customer data, manage and view employee information, and register account information (both online and offline) as well as managing disputes and transactions. This is done via a commandline interface.
@@ -11,9 +14,15 @@ This application is the main program for the database project, allowing access t
 ### Source Files
 Resource Files: postgresql-42.2.5.jar, manifest.txt
 
-Source Files: <b>DBMSApp.jar</b>, Main.java, CID.java, Conn.java, Relations.java, Command.java, CmdHelp.java
+Source Files:
 
-Data Files: ...
+<i>src:</i> Main.java
+
+<i>src/dbase:</i> CID.java, Conn.java, Relations.java
+
+<i>src/cmd:</i> Command.java, CmdHelp.java, CmdCustomer.java, CndReset.java, CmdAccount.java
+
+Data Files: input.txt
 ### Compilation, Testing, and Known Issues
 ```
 Compile:
@@ -31,3 +40,4 @@ Issues:
 
 Notes:
 - To appropriately compile the program, have the postgresql JAR file in the same directory as the source files on compilation. Furthermore, it is assumed you have an 'out' directory to compile to
+- Lines in an input file, given using  `in <file>`, that start with a '#' are ignored during preload
