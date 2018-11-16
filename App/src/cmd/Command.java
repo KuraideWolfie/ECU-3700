@@ -48,15 +48,17 @@ public abstract class Command {
 
   /** setCon(c) sets the connection the command handles.
     *
-    * @param c The database connection being handled */
+    * @param c The database connection being handled
+    * @return This instance for command chaining*/
 
-  public final void setCon(Conn c) { con = c; }
+  public final Command setCon(Conn c) { con = c; return this; }
 
   /** setScanner(s) sets the scanner this command will use.
     * 
-    * @param s The scanner instance to assign this command */
+    * @param s The scanner instance to assign this command
+    * @return This instance for command chaining */
 
-  public final void setScanner(Scanner s) { scan = s; }
+  public final Command setScanner(Scanner s) { scan = s; return this; }
 
   /** hasScanner() returns true if this command has access to a scanner */
 

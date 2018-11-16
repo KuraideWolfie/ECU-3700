@@ -41,12 +41,8 @@ public class Main {
       while(loop) {
         String cmd = com.prompt("CMD");
 
-        if (Command.isCommand(cmd)) {
-          Command c = Command.getCommand(cmd);
-          c.setCon(con);
-          c.setScanner(scan);
-          c.execute();
-        }
+        if (Command.isCommand(cmd))
+          Command.getCommand(cmd).setCon(con).setScanner(scan).execute();
         else if (Command.isReturn(cmd)) { loop = false; }
         else
           System.out.println("Command doesn't exist; use 'help' for a list");
