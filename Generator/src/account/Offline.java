@@ -23,7 +23,7 @@ public class Offline {
   private static Uniquifier uAID = new Uniquifier(12);
 
   // open and close are the open/close dates of the account
-  // aid is the account's unique number
+  // aid is the account's unique number, > 000000000000
   // bal, fee, and intRate are the balance, monthly fee, and interest rate
   // type and intComp are the type of account and interest compound rate
   private LocalDate open, close;
@@ -39,7 +39,7 @@ public class Offline {
   public Offline(Customer c) {
     int numType = Type.values().length, numComp = Comp.values().length;
 
-    aid = uAID.get();
+    do { aid = uAID.get(); } while (aid.equals("000000000000"));
     bal = Helper.randomRange(25, 1000);
     fee = randFee();
 
