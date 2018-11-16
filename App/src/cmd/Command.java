@@ -262,6 +262,24 @@ public abstract class Command {
     return cmd.equals("back") || cmd.equals("ret") || cmd.equals("exit");
   }
 
+  /** isYes(str) returns whether the given string is a 'yes' answer.
+    * 
+    * @param str The string to test
+    * @return True if str is yes, y, t, or true */
+
+    protected static boolean isYes(String str) {
+      return str.equals("y") || str.equals("yes") || str.equals("t") || str.equals("true");
+    }
+  
+    /** isNo(str) returns whether the given string is a 'no' answer.
+      *
+      * @param str The string to test
+      * @return True if str is no, n, f, or false */
+  
+    protected static boolean isNo(String str) {
+      return str.equals("n") || str.equals("no") || str.equals("f") || str.equals("false");
+    }
+
   /** open(f) attempts to open the file 'f' and read commands into the list
     * of preloaded commands. It ignores lines that start with '#'
     *

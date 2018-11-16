@@ -72,14 +72,14 @@ CREATE TABLE "Account" (
   PRIMARY KEY ("AID"),
   CHECK (
     CASE WHEN "Date_Close" is not null THEN "Date_Close" >= "Date_Open"
-        ELSE true END
+         ELSE true END
   ),
   CHECK (
     CASE WHEN "Int_Rate"=0 THEN "Int_Comp"='NONE'
-        ELSE true END
+         ELSE NOT "Int_Comp"='NONE' END
     and
     CASE WHEN "Type"='CHK' THEN "Int_Rate"=0
-        ELSE true END
+         ELSE true END
   )
 );
 

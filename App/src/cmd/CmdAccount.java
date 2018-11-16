@@ -2,20 +2,16 @@ package cmd;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
+import java.time.LocalDate;
 import java.sql.SQLException;
 
 import dbase.CID;
 import dbase.Relations;
+import cmd.acct.*;
 
 // Make a toggle so that only open accounts will be shown on a seek
 // Make get have subcommands for getting account info, transactions, cards
-
-// Creation of a new account
-// Modification of a new account to add a new owner or make a deposit, withdrawal, or transfer.
-// --- Removal of owners is also possible if it wouldn't leave an account with 0 owners
-// Close an account
-// Manage cards by adding a new card, or closing a card
-//   Sub-sub-commands for card management
 
 public class CmdAccount extends Command {
   public void execute() {
@@ -31,6 +27,7 @@ public class CmdAccount extends Command {
       switch(cmd.toLowerCase()) {
         case "new": subNew(); break;
         case "get": subGet(); break;
+        case "mod": (new SubModify()).setCon(con).setScanner(scan).execute(); break;
         case "seek": subSeek(); break;
         case "help": subHelp(); break;
         default:
@@ -51,6 +48,7 @@ public class CmdAccount extends Command {
       "new        Create a new account for a customer\n"+
       "seek       Seek information about an account\n"+
       "get        Get information about an account\n"+
+      "mod        Modify an account\n"+
       "help       Show this list of subcommands\n"+
       "ret        Return to the main menu"
     );
@@ -140,35 +138,69 @@ public class CmdAccount extends Command {
 
       // The user must enter these properties: Account type, balance, int rate,
       // compound rate, and monthly fee
-      String[][] fields = Relations.getProps("ACCT > NEW",
-        new String[][] {Relations.TBL_ACCOUNT[1], Relations.TBL_ACCOUNT[4],
-        Relations.TBL_ACCOUNT[5], Relations.TBL_ACCOUNT[6],
-        Relations.TBL_ACCOUNT[7]}, false);
-      
-      // <GENERATE QUERY AND INSERT INTO DATABASE>
-      // <INSERT INTO ACCOUNT_OWNER>
+      // (row will be 1 if the update is successful, or 0 if unsuccessful)
+      String[][] prop = new String[][] {Relations.TBL_ACCOUNT[1], Relations.TBL_ACCOUNT[4],
+        Relations.TBL_ACCOUNT[5], Relations.TBL_ACCOUNT[6], Relations.TBL_ACCOUNT[7]},
+        fields = Relations.getProps("ACCT > NEW", prop, false);
+      String que, aid;
+      int row;
+
+      // Generate query and run it
+      que = "INSERT INTO \"Account\"(\"AID\",\"Date_Open\","+
+        Relations.getInsert(prop).substring(1)+" VALUES ('000000000000','"+
+        LocalDate.now().toString()+"',";
+      for(String[] field : fields) {
+        switch(field[0]) {
+          case "Int_Comp":
+            if (field[1].equals(""))
+              que += "'NONE',";
+            else
+              que += "'"+field[1]+"',";
+            break;
+          default:
+            que += "'"+field[1]+"',";
+        }
+      }
+
+      ps = con.genQuery(que.substring(0,que.length()-1)+")");
+      row = ps.executeUpdate();
+      ps.close();
+
+      // If the account was created with temporary AID '000000000000', make a new
+      // AID and insert into Account_Owner the cid, aid pair
+      if (row > 0) {
+        Random r = new Random();
+        ps = con.genQuery("SELECT \"AID\" FROM \"Account\" WHERE \"AID\" = ?");
+        do {
+          aid = "";
+          for(int i=0; i<12; i++) aid += r.nextInt(10);
+          ps.setLong(1, Long.parseLong(aid));
+          rs = ps.executeQuery();
+        }
+        while(rs.next());
+        rs.close();
+        ps.close();
+
+        ps = con.genQuery(
+          "UPDATE \"Account\" SET \"AID\" = "+aid+" WHERE \"AID\"='000000000000'"
+        );
+        ps.executeUpdate();
+        ps.close();
+
+        ps = con.genQuery(
+          "INSERT INTO \"Account_Owner\"(\"AID\",\"CID\") VALUES ("+aid+","+cid+")"
+        );
+        ps.executeUpdate();
+        ps.close();
+
+        System.out.println("Account successfully created, AID: "+aid);
+      }
+      else
+        throw new Exception("Account could not be created");
     }
     catch(Exception e) {
       System.out.println("Error: "+e.getMessage());
     }
-  }
-
-  /** isYes(str) returns whether the given string is a 'yes' answer.
-    * 
-    * @param str The string to test
-    * @return True if str is yes, y, t, or true */
-
-  private boolean isYes(String str) {
-    return str.equals("y") || str.equals("yes") || str.equals("t") || str.equals("true");
-  }
-
-  /** isNo(str) returns whether hte given string is a 'no' answer.
-    *
-    * @param str The string to test
-    * @return True if str is no, n, f, or false */
-
-  private boolean isNo(String str) {
-    return str.equals("n") || str.equals("no") || str.equals("f") || str.equals("false");
   }
 
   /** subGet() allows the user to get information about an account, following
@@ -252,14 +284,14 @@ public class CmdAccount extends Command {
   }
 
   /** getCard() reads a card's information from the ResultSet property of this
-    * command. It modifies the expiration date by 3 years since the dates stored
+    * command. It modifies the expiration date by 4 years since the dates stored
     * are the dates the cards were assigned to the account. It returns a String
     * with basic information about the card. */
 
   private String getCard() throws SQLException {
     return String.format(
       "%s, PIN %s, SEC %s, expires %s", rs.getString("Number"), rs.getString("PIN"),
-      rs.getString("Sec_Code"), rs.getDate("Exp_Date").toLocalDate().plusYears(3).toString()
+      rs.getString("Sec_Code"), rs.getDate("Exp_Date").toLocalDate().plusYears(4).toString()
     );
   }
 
