@@ -5,13 +5,8 @@ reset
 ../Generator/data/query.sql
 # See account information for Matthew Morgan, Amara Rieras, Josh Reyes
 account
-seek
-Matthew Morgan
-1
-get
-097962965496, 031597952375, 111222333444
 new
-YES
+yes
 123456789
 Amara
 Rieras
@@ -29,36 +24,17 @@ CHK
 0
 
 9.99
-new
-NO
-Matthew Morgan
-2
-SAV
-100.00
-.07
-ANNUALLY
-5.99
 mod
-197772495775
-card
-new
-no
-card
-new
-yes
-0123456789012345
-card
-new
-yes
-0123456789012345
-mod
-197772495775
-card
-tog
-5136742728769589
-card
-tog
--1
+557982269562
+credit
+-500.75
+bal
+credit
+475.50
+bal
+debit
+75.50
+bal
 ret
 # Exit program execution
 ret

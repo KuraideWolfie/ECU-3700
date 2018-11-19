@@ -1,3 +1,12 @@
+/**
+  * CmdAccount is the main hub for commands related to account creation and
+  * management (i.e. the addition of owners and cards, or the closure of cards
+  * and accounts).
+  *
+  * Author: Matthew Morgan
+  * Date: 14 November 2018
+  */
+
 package cmd;
 
 import java.util.Scanner;
@@ -5,7 +14,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.time.LocalDate;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import dbase.Conn;
 import dbase.CID;
 import dbase.Relations;
 import cmd.acct.*;
@@ -46,7 +58,7 @@ public class CmdAccount extends Command {
       "Subcommands for Account\n"+
       "---------------------------------------------------------------------\n"+
       "new        Create a new account for a customer\n"+
-      "seek       Seek information about an account\n"+
+      "seek       Seek accounts owned by a customer\n"+
       "get        Get information about an account\n"+
       "mod        Modify an account\n"+
       "help       Show this list of subcommands\n"+
@@ -73,33 +85,15 @@ public class CmdAccount extends Command {
   private void subNew() {
     try {
       // Ask if the customer is new
-      System.out.println("Is this account for a present/returning customer? (y/n)");
+      System.out.println("Is this account for a new customer? (y/n)");
       String isNew, cid = "";
-      do { isNew = prompt("ACCT > NEW > Returning").toLowerCase(); }
+      do { isNew = prompt("ACCT > NEW").toLowerCase(); }
       while(!isYes(isNew) && !isNo(isNew));
 
       // If the customer is new, generate a new customer entry in the DB
       // If the customer isn't new, get a customer ID
-      if (isYes(isNew)) {
-        // Execute CmdCustomer's function to generate a new customer
-        System.out.println("Executing customer addition...\n");
-        CmdCustomer cust = new CmdCustomer();
-        cust.setCon(this.con);
-        cust.setScanner(this.scan);
-
-        if (!cust.subNewPub())
-          throw new Exception("Customer generation failed");
-        else
-          System.out.println();
-
-        // Get the new customer's CID
-        ps = con.genQuery("SELECT COUNT (*) AS \"NEWID\" FROM \"Customer\"");
-        rs = ps.executeQuery();
-        rs.next();
-        cid = rs.getString("NEWID");
-        rs.close();
-        ps.close();
-      }
+      if (isYes(isNew))
+        cid = getCustomer(scan, con);
       else {
         ArrayList<String> dat = new ArrayList<>();
         String[] name;
@@ -402,5 +396,40 @@ public class CmdAccount extends Command {
       rs.getLong("AID"), rs.getString("Type"), rs.getString("Date_Open"),
       rs.getString("Date_Close"), rs.getDouble("Balance")
     );
+  }
+
+  /** getCustomer(s,c) generates a customer via user input, and then returns the
+    * new user's CID as a string.
+    *
+    * @param s A scanner to use for input
+    * @param c A connection to a database for customer data insertion
+    * @return The new customer's CID
+   */
+
+  public static String getCustomer(Scanner s, Conn c) throws SQLException, Exception {
+    PreparedStatement ps;
+    ResultSet rs;
+    String cid;
+
+    // Execute CmdCustomer's function to generate a new customer
+    System.out.println("Executing customer addition...\n");
+    CmdCustomer cust = new CmdCustomer();
+    cust.setCon(c);
+    cust.setScanner(s);
+
+    if (!cust.subNewPub())
+      throw new Exception("Customer generation failed");
+    else
+      System.out.println();
+
+    // Get the new customer's CID
+    ps = c.genQuery("SELECT COUNT (*) AS \"NEWID\" FROM \"Customer\"");
+    rs = ps.executeQuery();
+    rs.next();
+    cid = rs.getString("NEWID");
+    rs.close();
+    ps.close();
+
+    return cid;
   }
 }
