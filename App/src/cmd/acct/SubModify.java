@@ -52,6 +52,7 @@ public class SubModify extends Command {
         String cmd = prompt("ACCT > MOD");
 
         switch(cmd.toLowerCase()) {
+          case "help": subHelp(); break;
           case "card": subCard(); break;
           case "owner": subOwn(); break;
           case "close": if (subClose()) { return; } break;
